@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div id="repos-container" style="background-color: aqua; display:flex; width: 80%; margin: 0 auto;">
+    </div>
+
+    <script type="module">
+      import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+      import { key } from "/key.js"
+
+      const octokit = new Octokit({auth: key});
+      // request repos
+      const response = await octokit.request("GET /users/corymusick/repos")
+      const data = response.data
+      // get html container
+      const container = document.querySelector("#repos-container");
+      console.log(data)
+      //Using pages as a filter to determine which repos go in portfolio
+      const reposWithPages = data.filter((repo) => {
+        return repo.has_pages;
+      })
+      console.log(reposWithPages)
+      
+      // for each repo build component
+      Object.values(reposWithPages).forEach(value =>{
+        let name = value.name;
+        let description = value.description;
+        let repoURL = value.url;
+        let lastUpdate = value.updated_at;
+        console.log(value)
+        // create repo container
+        let repoHTML = document.createElement('div'); 
+        repoHTML.style = "background-color: pink;"
+        // create name element
+        let nameHTML = document.createElement('h3')
+        nameHTML.textContent = name;
+        // create description element
+        let descriptionHTML = document.createElement('p')
+        descriptionHTML.textContent = description;
+        //create url element
+        let repourlHTML = document.createElement('a');
+        repourlHTML.textContent = repoURL;
+        // create last update element
+        let lastUpdateHTML = document.createElement('p')
+        lastUpdateHTML.textContent = lastUpdate;
+       
+        //build repo component
+        repoHTML.appendChild(nameHTML);
+        repoHTML.appendChild(descriptionHTML);
+        repoHTML.appendChild(repourlHTML);
+        repoHTML.appendChild(lastUpdateHTML)
+        
+        //append component to container 
+        container.appendChild(repoHTML);
+
+      })
+     
+
+
+
+    </script>
+  </body>
+</html>
