@@ -90,10 +90,8 @@
     <script type="module">
       import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
       
-      
-      const key = "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";
       const getRepos = async () => {
-      const octokit = new Octokit({auth: key});
+      const octokit = new Octokit({auth: "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"});
       const userName = "corymusick";
     
       // request repos
