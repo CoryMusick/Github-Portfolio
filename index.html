@@ -31,6 +31,13 @@
       color: #8338ec;
       text-decoration: underline;
     }
+    .bar{
+      display: flex;
+      width: 80%;
+      background-color: aqua;
+    }
+
+    
   </style>
   <body style="font-family: 'Noto Sans'; margin: 0;">
     <!--[if lt IE 7]>
@@ -50,8 +57,8 @@
         <a href="#Portfolio" class="nav-link" style="padding-right: 6px; border-right: white solid 2px;">
           Portfolio
         </a>
-        <a href="#Resume" class="nav-link" style='margin-left: 12px;'>
-          Resume
+        <a href="#Contact" class="nav-link" style='margin-left: 12px;'>
+          Contact
         </a>
       </div>
     </header>
@@ -72,22 +79,31 @@
       <div id="repos-container" style="display:flex; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-around;">
       </div>
     </div>
+
+
+    <!---TO DO 
+      ADD RESUME SECTION UNDERNEATH DEVELOPMENT PROJECTS
+      CLEAN UP DESCRIPTIONS AND REVISIT OLD PROJECTS 
+    -->
    
 
     <script type="module">
       import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
       import { key } from "/key.js"
+      
+      
       const getRepos = async () => {
       const octokit = new Octokit({auth: key});
       const userName = "corymusick";
-      
+    
       // request repos
-      const response = await octokit.request("GET /users/"+userName+"/repos")
-      const data = response.data
-      
+      const repoResponse = await octokit.request("GET /users/"+userName+"/repos")
+      // Data is array of repo objects
+      const data = repoResponse.data
+      console.log(data)
       // get html container
       const container = document.querySelector("#repos-container");
-      console.log(data)
+      
       
       //Using pages as a filter to determine which repos go in portfolio
       const reposWithPages = data.filter((repo) => {
@@ -96,13 +112,20 @@
       console.log(reposWithPages)
       
       // for each repo build component
-      Object.values(reposWithPages).forEach(value =>{
-        let name = value.name;
-        let description = value.description;
-        let repoURL = value.html_url;
-        let lastUpdate = value.updated_at.split("T")[0];
-        let language = value.language;
-        console.log(value)
+      Object.values(reposWithPages).forEach(repo =>{
+        // repo name
+        let name = repo.name;
+        // repo about section
+        let description = repo.description;
+        // url to repo on github
+        let repoURL = repo.html_url;
+        // last commit
+        let lastUpdate = repo.updated_at.split("T")[0];
+        // primary language used
+        let language = repo.language;
+        console.log(repo)
+        let repoTags = octokit.request(repo.languages_url);
+        repoTags.then((value) => console.log(value))
        
         // create repo container
         let repoHTML = document.createElement('div'); 
@@ -171,7 +194,7 @@
         
         //append component to container 
         container.appendChild(repoHTML);
-
+      
       })
     }
     const navLinks = document.querySelectorAll(".nav-link");
