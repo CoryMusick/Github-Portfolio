@@ -1,0 +1,24 @@
+{
+  "name": "github-portfolio",
+  "version": "1.0.0",
+  "description": "A front end github portfolio with data populated with node script",
+  "main": "index.js",
+  "dependencies": {
+    "@octokit/core": "^3.5.1",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "node getRepos.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoryMusick/Github-Portfolio.git"
+  },
+  "author": "Cory Musick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoryMusick/Github-Portfolio/issues"
+  },
+  "homepage": "https://github.com/CoryMusick/Github-Portfolio#readme"
+}
