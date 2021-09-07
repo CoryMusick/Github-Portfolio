@@ -21,7 +21,8 @@ Object.values(repoData).forEach(repo =>{
   repoHTML.style = ` 
   margin-bottom: 12px; 
   border-radius: 5%; 
-  width: 40%; 
+  min-width: 250px;
+  max-width: 500px; 
   border: 2px solid #3a86ff;;
   padding: 0 6px;     
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px`
@@ -49,7 +50,7 @@ Object.values(repoData).forEach(repo =>{
   // create description element
   let descriptionHTML = document.createElement('p')
   descriptionHTML.textContent = description;
-  descriptionHTML.style="height: 100px;"
+  descriptionHTML.style="max-height: 100px;"
  
   //create url element
   let repourlHTML = document.createElement('a');
